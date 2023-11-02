@@ -1,18 +1,12 @@
 .App-header {
-    border-bottom: 3px solid #E0434C;
-    display: flex;
-    align-items: center;
-    height: 162px;
-    width: 100%;
+  font-size: 1.4rem;
+  color: #e0354b;
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid #e0354b;
 }
 
 .App-header img {
-    height: 159px;
-    width: 159px;
-}
-
-.App-header h1 {
-    color: #E0434C;
-    font-weight: 900;
-    font-size: 2rem;
+  width: 200px;
+  height: 200px;
 }
