@@ -1,26 +1,25 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import { expect } from 'chai';
-import NotificationItem from './NotificationItem';
+import React from "react";
+import NotificationItem from "./NotificationItem";
+import { shallow } from "enzyme";
 
-describe('Test NotificationItem.js', () => {
-  it('Notificacionitem without crashing', (done) => {
-    expect(shallow(<NotificationItem />).exists());
-    done();
+describe("rendering components", () => {
+  it("renders NotificationItem component without crashing", () => {
+    const wrapper = shallow(<NotificationItem />);
+
+    expect(wrapper.exists()).toBe(true);
   });
 
-  it('renders three list items', (done) => {
-    const wrapper = shallow(<NotificationItem type='default' value='test' />);
+  it('renders correct html from type="default" value="test" props', () => {
+    const wrapper = shallow(<NotificationItem />);
 
-    expect(wrapper.find('li')).to.have.lengthOf(1);
-    expect(wrapper.find('li').props()).to.have.property('data-notification-type', 'default');
-    expect(wrapper.find('li').text()).to.equal('test');
-    done();
+    wrapper.setProps({ type: "default", value: "test" });
+    expect(wrapper.html()).toEqual('<li data-notification-type="default">test</li>');
   });
 
-  it(' renders inner HTML', (done) => {
-    const wrapper = shallow(<NotificationItem html={{ __html: '<u>test</u>' }} />);
-    expect(wrapper.html()).to.equal('<li><u>test</u></li>');
-    done();
+  it('renders correct html from  html="<u>test</u>" props', () => {
+    const wrapper = shallow(<NotificationItem />);
+
+    wrapper.setProps({ html: "<u>test</u>" });
+    expect(wrapper.html()).toEqual('<li data-urgent="true"><u>test</u></li>');
   });
 });
