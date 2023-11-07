@@ -1,19 +1,20 @@
-import { getLatestNotification, getFullYear, getFooterCopy } from './utils';
+import { getFullYear, getFooterCopy, getLatestNotification } from './utils';
 
-describe('Test Utils.js', () => {
-  it('Function getFullYear', (done) => {
-    expect(getFullYear()).toBe(new Date().getFullYear());
-    done();
+
+describe('Test - utils.test.js', () => {
+  it('Year returns current year', () => {
+    expect(getFullYear()).toBe( new Date().getFullYear());
   });
 
-  it('Function getFooterCopy', (done) => {
-    expect(getFooterCopy(true)).toBe('Holberton School');
-    expect(getFooterCopy(false)).toBe('Holberton School main dashboard');
-    done();
+  it('getFooterCopy case 1', () => {
+    expect(getFooterCopy(true)).toBe("Holberton School");
   });
 
-  it('Function getLatestNotification', (done) => {
-    expect(getLatestNotification()).toBe('<strong>Urgent requirement</strong> - complete by EOD');
-    done();
+  it('getFooterCopy case 2', () => {
+    expect(getFooterCopy(false)).toBe("Holberton School main dashboard");
+  });
+
+  it('getLatestNotification works', () => {
+    expect(getLatestNotification()).toBe("<strong>Urgent requirement</strong> - complete by EOD");
   });
 });

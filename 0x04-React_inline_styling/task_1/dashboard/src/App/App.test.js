@@ -1,72 +1,76 @@
 import React from 'react';
-import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { StyleSheetTestUtils } from 'aphrodite';
 import App from './App';
+import CourseList from '../CourseList/CourseList';
+import Login from '../Login/Login';
+import { StyleSheetTestUtils } from "aphrodite";
 
-beforeEach(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
+describe("App.test.js", () => {
+  let wrapper;
+
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
+  it('Correct component rendering', () => {
+    wrapper = shallow(<App />);
+  });
+
+  it('renders Header', () => {
+    wrapper = shallow(<App />);
+    expect(wrapper.find('Header').exists()).toEqual(true);
+  });
+  it('renders Login', () => {
+    wrapper = shallow(<App />);
+    expect(wrapper.find('Login').exists()).toEqual(true);
+  });
+  it('renders Footer', () => {
+    wrapper = shallow(<App />);
+    expect(wrapper.find('Footer').exists()).toEqual(true);
+  });
+  it('not renders CourseList by default', () => {
+    wrapper = shallow(<App />);
+    expect(wrapper.find(CourseList).exists()).toEqual(false);
+  });
+  it('CourseList exist when isLoggedIn = true', () => {
+    wrapper = shallow(<App isLoggedIn={ true } />);
+    expect(wrapper.find(CourseList).exists()).toEqual(true);
+  });
+  it('CourseList exist when isLoggedIn = false', () => {
+    wrapper = shallow(<App isLoggedIn={ false } />);
+    expect(wrapper.find(Login).exists()).toEqual(true);
+  });
 });
 
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+describe("App.test.js - events", () => {
+  let wrapper;
 
-describe('Basic React Tests - <App />', function() {
-	it('Should render without crashing', () => {
-		const wrapper = shallow(<App />);
-		expect(wrapper.exists()).toBeTruthy();
-	});
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
 
-	it('Should contain the Notifications component', () => {
-		const wrapper = shallow(<App />);
-		expect(wrapper.find('Notifications')).toHaveLength(1);
-	});
+  afterEach(() => {
+    wrapper.unmount();
+  });
 
-	it('Should contain the Header component', () => {
-		const wrapper = shallow(<App />);
-		expect(wrapper.find('Header')).toHaveLength(1);
-	});
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
 
-	it('Should contain the Login component', () => {
-		const wrapper = shallow(<App />);
-		expect(wrapper.find('Login')).toHaveLength(1);
-	});
 
-	it('Should contain the Footer component', () => {
-		const wrapper = shallow(<App />);
-		expect(wrapper.find('Footer')).toHaveLength(1);
-	});
-
-	it('Should check that CourseList is not displayed', () => {
-		const wrapper = shallow(<App />);
-		expect(wrapper.find('CourseList')).toHaveLength(0);
-	});
-});
-
-describe('Basic React Tests - When isLoggedIn is true', function() {
-	it('Should verify that the Login component is not included', () => {
-		const wrapper = shallow(<App isLoggedIn={true} />);
-		expect(wrapper.find('Login')).toHaveLength(0);
-	});
-
-	it('Should check that the CourseList component is included', () => {
-		const wrapper = shallow(<App isLoggedIn={true} />);
-		expect(wrapper.find('CourseList')).toHaveLength(1);
-	});
-});
-
-describe('Basic React Tests - App Class', function() {
-	it('When the keys control and h are pressed - Should check that logOut function, passed as a prop, is called and the alert function is called with a string', () => {
-		const events = {};
-
-    document.addEventListener = jest.fn((event, callback) => {
-      events[event] = callback;
-    });
-		window.alert = jest.fn();
-		shallow(<App />);
-		events.keydown({ key: "h", ctrlKey: true });
-		expect(window.alert).toHaveBeenCalledWith("Logging you out");
-		jest.restoreAllMocks();
+  it('Alert when user keydown ctrl+h', () => {
+    wrapper = shallow(<App />);
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const event = new KeyboardEvent('keydown', {ctrlKey:true, key:'h'});
+    window.dispatchEvent(event);
+    expect(window.alert).toHaveBeenCalledWith('Logging you out');
   });
 });

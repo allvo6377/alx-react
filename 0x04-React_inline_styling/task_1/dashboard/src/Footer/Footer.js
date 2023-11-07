@@ -1,16 +1,21 @@
-import React, { Fragment } from 'react';
+import React, { Component } from 'react'
 import { getFullYear, getFooterCopy } from '../utils/utils';
-import './Footer.css';
+import {StyleSheet, css} from 'aphrodite';
 
 
-function Footer() {
-  return(
-    <Fragment>
-      <div className="App-footer">
-        <p>Copyright {getFullYear()} - {getFooterCopy(true)}</p>
-      </div>
-    </Fragment>
-  );
+export default class Footer extends Component {
+  render() {
+    return (
+      <>
+        <p className={ css(styles.p) }>Copyright {getFullYear()} - {getFooterCopy()}</p>
+      </>
+    )
+  }
 }
 
-export default Footer;
+const styles = StyleSheet.create({
+  p: {
+    textAlign: 'center',
+    fontStyle: 'italic'
+  }
+});

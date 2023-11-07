@@ -1,56 +1,48 @@
-import React, { Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, css } from 'aphrodite';
 import CourseListRow from './CourseListRow';
 import CourseShape from './CourseShape';
-import './CourseList.css';
+import {StyleSheet, css} from 'aphrodite';
 
-function CourseList({ listCourses }) {
-	return (
-		<table id='CourseList' className={css(styles.CourseList)}>
-			<thead>
-				<CourseListRow textFirstCell="Available courses" isHeader={true} />
-				<CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />
-			</thead>
-			<tbody>
-				{
-					listCourses.length === 0 && (
-						<CourseListRow
-							textFirstCell="No course available yet"
-							isHeader={false}
-						/>
-					)
-				}
-				{
-					listCourses && listCourses.map((newCourse) => (
-						<CourseListRow 
-							key={newCourse.id}
-							textFirstCell={newCourse.name}
-							textSecondCell={newCourse.credit}
-							isHeader={false}
-						/>
-					))
-				}
-			</tbody>
-		</table>
-	);
+
+export default class CourseList extends Component {
+  static propTypes = {
+    listCourses: PropTypes.arrayOf(CourseShape)
+  }
+
+  static defaultProps  = {
+    listCourses: []
+  }
+
+  generateRows = () => {
+    if (this.props.listCourses.length <= 0) {
+      return (<tr><td>No course available yet</td></tr>);
+    }
+    return this.props.listCourses.map((x) =>
+        <CourseListRow key={x.id} isHeader={false} textFirstCell={x.name} textSecondCell={x.credit} />
+    );
+  }
+
+  render() {
+    return (
+      <table id="CourseList" className={ css(styles.table) }>
+        <thead>
+          <CourseListRow isHeader={true} textFirstCell="Available courses" />
+          <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
+        </thead>
+        <tbody>
+          { this.generateRows() }
+        </tbody>
+      </table>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
-	CourseList: {
-		width: '90%',
-		margin: '50px auto',
-		border: '1px solid lightgray',
-		borderCollapse: 'collapse'
-	}
+  table: {
+    textAlign: 'left',
+    margin: '10px',
+    border: '1px solid lightgrey',
+    width: '100%'
+  }
 });
-
-CourseList.propTypes = {
-	listCourses: PropTypes.arrayOf(CourseShape)
-};
-
-CourseList.defaultProps = {
-	listCourses: []
-};
-
-export default CourseList;

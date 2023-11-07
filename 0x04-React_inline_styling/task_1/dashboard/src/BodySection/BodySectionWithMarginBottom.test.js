@@ -1,38 +1,56 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import { StyleSheetTestUtils } from 'aphrodite';
+import { mount } from 'enzyme';
 import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
+import BodySection from './BodySection';
+import { StyleSheetTestUtils } from "aphrodite";
 
-beforeEach(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
 
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
+describe("BodySectionWithMarginBottom.test.js", () => {
+  let wrapper;
 
-describe('Basic React Tests - <BodySectionWithMarginBottom />', function() {
-	it('Should render without crashing', () => {
-		const wrapper = shallow(<BodySectionWithMarginBottom />);
-		expect(wrapper.exists()).toBeTruthy();
-	});
+  beforeAll(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
 
-	it('Should render correctly a BodySection component and that the props are passed correctly to the child component', () => {
-		const wrapper = shallow(
-			<BodySectionWithMarginBottom title='title' >
-				<p>children</p>
-			</BodySectionWithMarginBottom>
-		);
-		expect(wrapper.find("BodySection")).toHaveLength(1);
-    expect(wrapper.find("BodySection").props().title).toEqual('title');
-	});
+  afterEach(() => {
+    wrapper.unmount();
+  });
 
-	// it("Should check that the CSS is correctly applied to BodySectionWithMarginBottom", () => {
-  //   const wrapper = shallow(
-  //     <BodySectionWithMarginBottom title="title">
-  //       <p>children</p>
-  //     </BodySectionWithMarginBottom>
-  //   );
-  //   expect(wrapper.find(".bodySectionWithMargin").first().exists()).toEqual(true);
-  // });
+  afterAll(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
+  it('Correct component rendering', () => {
+    wrapper = mount(
+      <BodySectionWithMarginBottom title="test title">
+        <p>test children node</p>
+      </BodySectionWithMarginBottom>
+    );
+    expect(wrapper.exists()).toEqual(true);
+    expect(wrapper.find(BodySection).exists()).toEqual(true);
+    expect(wrapper.find(BodySection).prop('title')).toEqual('test title');
+    expect(wrapper.find(BodySection).prop('children').type).toEqual('p');
+    expect(wrapper.find(BodySection).find('p').at(0).text()).toEqual('test children node');
+  });
+
+  it('renders title', () => {
+    wrapper = mount(
+      <BodySectionWithMarginBottom title="test title">
+        <p>test children node</p>
+      </BodySectionWithMarginBottom>
+    );
+    expect(wrapper.find('h2').exists()).toEqual(true);
+    expect(wrapper.find('h2').text()).toContain('test title');
+  });
+
+  it('renders childs', () => {
+    wrapper = mount(
+      <BodySectionWithMarginBottom title="test title">
+        <p>test children node</p>
+      </BodySectionWithMarginBottom>
+    );
+    expect(wrapper.find('p').exists()).toEqual(true);
+    expect(wrapper.find('p').text()).toContain('test children node');
+  });
+  
 });
