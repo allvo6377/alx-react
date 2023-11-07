@@ -1,25 +1,46 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
+import BodySection from './BodySection';
 
-describe('<BodySectionWithMarginBottom />', () => {
-  it('component and props', () => {
-    const wrapper = shallow(
-      <BodySectionWithMarginBottom title='test title'>
+describe("BodySectionWithMarginBottom.test.js", () => {
+  let wrapper;
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it('Correct component rendering', () => {
+    wrapper = mount(
+      <BodySectionWithMarginBottom title="test title">
         <p>test children node</p>
       </BodySectionWithMarginBottom>
     );
-    const div = wrapper.find('.bodySectionWithMargin').first();
-    const BodySection = wrapper.find('BodySection');
-    const internalBody = BodySection.dive();
-    const h2 = internalBody.find('h2');
-    const p = internalBody.find('p');
-    expect(div.exists()).toEqual(true);
-    expect(BodySection).toHaveLength(1);
-    expect(BodySection.props().title).toEqual('test title');
-    expect(h2).toHaveLength(1);
-    expect(h2.text()).toEqual('test title');
-    expect(p).toHaveLength(1);
-    expect(p.text()).toEqual('test children node');
+    expect(wrapper.exists()).toEqual(true);
+    expect(wrapper.find(BodySection).exists()).toEqual(true);
+    expect(wrapper.find(BodySection).prop('title')).toEqual('test title');
+    expect(wrapper.find(BodySection).prop('children').type).toEqual('p');
+    expect(wrapper.find(BodySection).find('p').at(0).text()).toEqual('test children node');
   });
+
+  it('renders title', () => {
+    wrapper = mount(
+      <BodySectionWithMarginBottom title="test title">
+        <p>test children node</p>
+      </BodySectionWithMarginBottom>
+    );
+    expect(wrapper.find('h2').exists()).toEqual(true);
+    expect(wrapper.find('h2').text()).toContain('test title');
+  });
+
+  it('renders childs', () => {
+    wrapper = mount(
+      <BodySectionWithMarginBottom title="test title">
+        <p>test children node</p>
+      </BodySectionWithMarginBottom>
+    );
+    expect(wrapper.find('p').exists()).toEqual(true);
+    expect(wrapper.find('p').text()).toContain('test children node');
+  });
+  
 });

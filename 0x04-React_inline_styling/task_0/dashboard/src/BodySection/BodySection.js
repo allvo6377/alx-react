@@ -2,28 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './BodySection.css';
 
-class BodySection extends Component {
+export default class BodySection extends Component {
+  static propTypes = {
+    title: PropTypes.string,
+    children: PropTypes.object
+  }
+
+  static defaultProps  = {
+    title: '',
+    children: []
+  }
+
   constructor(props) {
     super(props);
   }
 
   render() {
-    const { children, title } = this.props;
     return (
-      <div className='bodySection'>
-        <h2>{title}</h2>
-        {children}
+      <div className="bodySection">
+        <h2>{ this.props.title }</h2>
+        { this.props.children }
       </div>
-    );
+    )
   }
 }
-
-BodySection.defaultProps = {
-  title: '',
-};
-
-BodySection.propTypes = {
-  title: PropTypes.string,
-};
-
-export default BodySection;

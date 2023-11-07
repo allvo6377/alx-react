@@ -1,19 +1,15 @@
-import React, { Fragment } from 'react';
-import logo from '../assets/holberton_logo.jpg';
+import React, { Component } from 'react';
+import logo from '../assets/holberton-logo.jpg';
 import './Header.css';
 
 
-function Header() {
-  return(
-    <Fragment>
-      <div className="App-header">
-        <img src={logo} alt="logo" />
-        <h1>
-          School dashboard
-        </h1>
-      </div>
-    </Fragment>
-  );
+export default class Header extends Component {
+  render() {
+    return (
+      <>
+        <img src={ logo } className="App-logo" alt="logo" />
+        <h1>School dashboard</h1>
+      </>
+    )
+  }
 }
-
-export default Header;

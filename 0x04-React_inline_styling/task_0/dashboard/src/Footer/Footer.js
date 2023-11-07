@@ -1,16 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Component } from 'react'
 import { getFullYear, getFooterCopy } from '../utils/utils';
 import './Footer.css';
 
-
-function Footer() {
-  return(
-    <Fragment>
-      <div className="App-footer">
-        <p>Copyright {getFullYear()} - {getFooterCopy(true)}</p>
-      </div>
-    </Fragment>
-  );
+export default class Footer extends Component {
+  render() {
+    return (
+      <>
+        <p>Copyright {getFullYear()} - {getFooterCopy()}</p>
+      </>
+    )
+  }
 }
-
-export default Footer;

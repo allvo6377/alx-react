@@ -1,4 +1,6 @@
 const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: "development",
@@ -8,16 +10,23 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve("./dist"),
   },
+  performance: {
+    maxAssetSize: 1000000,
+    maxEntrypointSize: 1000000,
+  },
   devServer: {
     hot: true,
     contentBase: path.resolve("./dist"),
     compress: true,
     port: 8564,
   },
-  performance: {
-    maxAssetSize: 1000000,
-    maxEntrypointSize: 1000000,
-  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      filename: './index.html',
+      favicon: './public/favicon.ico'
+    }),
+  ],
   module: {
     rules: [
       {
@@ -30,14 +39,14 @@ module.exports = {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(gif|png|jpe?g|svg|ico)$/i,
         use: [
           "file-loader",
           {
             loader: "image-webpack-loader",
             options: {
-              bypassOnDebug: true, // webpack@1.x
-              disable: true, // webpack@2.x and newer
+              bypassOnDebug: true,
+              disable: true,
             },
           },
         ],

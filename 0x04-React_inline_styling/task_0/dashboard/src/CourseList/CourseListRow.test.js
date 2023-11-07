@@ -1,25 +1,39 @@
-import { shallow } from "enzyme";
-import React from "react";
-import CourseListRow from "./CourseListRow";
+import React from 'react';
+import { shallow } from 'enzyme';
+import CourseListRow from '../CourseList/CourseListRow';
 
-describe('Test CourseListRow.js', () => {
-  it('CourseListRow  render without crashing', () => {
-    expect(shallow(<CourseListRow textFirstCell='test' />).exists());
+
+describe("CourseListRow.test.js", () => {
+  it('Correct component rendering', () => {
+    const wrapper = shallow(<CourseListRow textFirstCell="test0" />);
+    expect(wrapper.exists()).toEqual(true);
   });
-
-  it('render isHeader is True and render with one th', () => {
-    const wrapper = shallow(<CourseListRow isHeader={true} textFirstCell='test' />);
-    expect(wrapper.find('th')).toHaveLength(1);
-    expect(wrapper.find('th').prop('colSpan')).toEqual("2");
+  it('renders with 1 th', () => {
+    const wrapper = shallow(<CourseListRow isHeader={true} textFirstCell="test1"/>);
+    const th = wrapper.find('th');
+    expect(th.prop('colSpan')).toEqual("2");
+    expect(th.text()).toEqual('test1');
   });
-
-  it('render isHeader is True and render with two th', () => {
-    const wrapper = shallow(<CourseListRow isHeader={true} textFirstCell='test' textSecondCell='test' />);
-    expect(wrapper.find('th')).toHaveLength(2);
+  it('renders with 2 th', () => {
+    const wrapper = shallow(
+      <CourseListRow
+        isHeader={ true }
+        textFirstCell="test1"
+        textSecondCell="test2"
+      />);
+    expect(wrapper.find('th').length).toEqual(2);
+    expect(wrapper.find('th').first().text()).toEqual('test1');
+    expect(wrapper.find('th').last().text()).toEqual('test2');
   });
-
-  it('render isHeader is False and with two td', () => {
-    const wrapper = shallow(<CourseListRow isHeader={false} textFirstCell='test' textSecondCell='test' />);
-    expect(wrapper.find('td')).toHaveLength(2);
+  it('renders with 2 td', () => {
+    const wrapper = shallow(
+      <CourseListRow
+        isHeader={ false }
+        textFirstCell="test1"
+        textSecondCell="test2"
+      />);
+    expect(wrapper.find('td').length).toEqual(2);
+    expect(wrapper.find('td').first().text()).toEqual('test1');
+    expect(wrapper.find('td').last().text()).toEqual('test2');
   });
 });

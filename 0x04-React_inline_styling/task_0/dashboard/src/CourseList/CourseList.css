@@ -1,14 +1,24 @@
-.CourseList__container {
-    border: 1px solid #ccc;
-    margin: 2rem auto;
-    width: 80%;
+
+table {
+  text-align: left;
+  margin: 10px;
+  border: 1px solid lightgrey;
+  width: 100%;
 }
-  
-.CourseList__container th {
-    padding: .3rem 0;
-    border-bottom: 1px solid #ccc;
+
+th, td {
+  padding: 5px;
 }
-  
-.CourseList__container tr:nth-of-type(2) {
-    text-align: left;
+
+td {
+  font-weight: normal;
+}
+
+th {
+  font-weight: bold;
+  border-bottom: 3px solid lightgrey;
+}
+
+tr :only-child {
+  text-align: center;
 }

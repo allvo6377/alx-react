@@ -1,85 +1,82 @@
-import React, { Component, Fragment } from 'react';
-import './Notifications.css';
-import close_icon from '../assets/close-icon.png';
-import NotificationItem from './NotificationItem';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import './Notifications.css';
+import imgClose from '../assets/close-icon.png';
+import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 
-class Notifications extends Component {
-  constructor(props) {
-    super(props);
-    this.markAsRead = this.markAsRead.bind(this);
-  }
-  markAsRead(id) {
-    console.log(`Notification ${id} has been marked as read`);
-  }
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.listNotifications.length > this.props.listNotifications.length
-    );
+export default class Notifications extends Component {
+  static propTypes = {
+    displayDrawer: PropTypes.bool,
+    listNotifications: PropTypes.arrayOf(NotificationItemShape)
   }
 
+  static defaultProps  = {
+    displayDrawer: false,
+    listNotifications: []
+  }
+
+  constructor (props) {
+    super(props);
+    this.logClick = this.closeNotifications.bind(this);
+    this.markAsRead = this.markAsRead.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.listNotifications.length > this.props.listNotifications.length ){
+      return true;
+    }
+    return false;
+  }
+
+  markAsRead = id => {
+    console.log(`Notification ${id} has been marked as read`);
+  }
+
+  closeNotifications () {
+    console.log("Close button has been clicked");
+  }
+
+  renderNotification = x =>
+    <NotificationItem key={ x.id } keyId={ x.id } type={ x.type }
+    value={ x.value } html={ x.html } markAsRead={ this.markAsRead }/>
+
+  generateList = () => {
+    if (this.props.listNotifications.length <= 0) {
+      return (<li>No new notification for now</li>);
+    }
+    return this.props.listNotifications.map(this.renderNotification)
+  }
+  
   render() {
-    const { displayDrawer, listNotifications } = this.props;
-    return (
-      <Fragment>
-        <div className='menuItem'>
-          <p>Your notifications</p>
-        </div>
-        {displayDrawer && (
-          <div className='Notifications'>
-            <p>Here is the list of notifications</p>
-            <ul>
-              {listNotifications.length === 0 && (
-                <NotificationItem value='No new notification for now' />
-              )}
-              {listNotifications.map((notification) => (
-                <NotificationItem
-                  key={notification.id}
-                  type={notification.type}
-                  value={notification.value}
-                  html={notification.html}
-                  markAsRead={this.markAsRead}
-                />
-              ))}
-            </ul>
-            <button
-              type='button'
-              aria-label='Close'
-              onClick={() => console.log('Close button has been clicked')}
-              style={{
-                display: 'inline-block',
-                position: 'absolute',
-                top: '56px',
-                right: '16px',
-                background: 0,
-                border: 0,
-                outline: 'none',
-                cursor: 'pointer',
-                zIndex: 1,
-              }}
-            >
-              <img
-                src={close_icon}
-                alt=''
-                style={{ width: '8px', height: '8px' }}
-              />
-            </button>
-          </div>
-        )}
-      </Fragment>
-    );
+    return <>
+    <div className="menuItem">
+        <p>Your notifications</p>
+    </div>
+    { this.props.displayDrawer ? <div className="Notifications">
+      <button aria-label="Close"
+              onClick={ this.closeNotifications }
+              style={
+                {position: "absolute",
+                top: 10,
+                right: 10,
+                visibility: "hidden"}
+              }
+      >
+      <img alt="close" src={imgClose}
+            style={
+              {visibility: "visible",
+              height: "15px",
+              width: "15px"}
+            }
+      />
+      </button>
+      { this.props.listNotifications?.length > 0  ? <p>Here is the list of notifications</p> : null}
+      <ul>
+        { this.generateList() }
+      </ul>
+    </div> : null }
+    </>
   }
 }
 
-Notifications.defaultProps = {
-  displayDrawer: false,
-  listNotifications: [],
-};
-
-Notifications.propTypes = {
-  displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(NotificationItemShape),
-};
-
-export default Notifications;
