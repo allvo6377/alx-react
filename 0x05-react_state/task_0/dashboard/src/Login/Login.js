@@ -1,45 +1,53 @@
 import React from "react";
-import { StyleSheet, css } from "aphrodite";
+import { StyleSheet, css } from 'aphrodite';
 
-function Login() {
+const Login = () => {
   return (
-    <div className={css(styles.login)}>
-      <p>Login to access the full dashboard</p>
-      <label htmlFor="email">Email:</label>
-      <input type="email" id="email" className={css(styles.loginInput)} />
-      <label htmlFor="password">Password:</label>
-      <input type="password" id="password" className={css(styles.loginInput)} />
-      <button>OK</button>
+    <div className="App-login">
+      <div className={css(styles.loginStyle)}>
+        <p className={css(styles.loginPStyle)}>Login to access the full dashboard</p>
+        <form className={css(styles.loginFormStyle)}>
+          <label className={css(styles.smallLabel)}>
+            Email:
+            <input type="text" name="email" />
+          </label>
+          <label className={css(styles.smallLabel)}>
+            Password:
+            <input type="text" nam="password" />
+          </label>
+          <button>OK</button>
+        </form>
+      </div>
     </div>
   );
-}
-
-const screenSize = {
-  small: "@media screen and (max-width: 900px)",
 };
 
 const styles = StyleSheet.create({
-  login: {
-    margin: "50px",
-    flexGrow: 1,
-    [screenSize.small]: {
-      marginTop: "10px",
-      marginLeft: 0,
-      marginRight: 0,
-      marginBottom: 0,
-    },
+  loginStyle: {
+    minHeight: 150,
+    margin: '40px auto 150px auto',
+    '@media (max-width: 900px)': {
+      minHeight: 0,
+      margin: 0,
+    }
   },
 
-  loginInput: {
-    marginLeft: "10px",
-    marginRight: "20px",
-    [screenSize.small]: {
-      display: "block",
-      marginLeft: 0,
-      marginTop: "10px",
-      marginBottom: "10px",
-    },
+  loginPStyle: {
+    margin: '3rem 0rem 0rem 2rem',
+    '@media (max-width: 900px)': {
+      marginTop: 0,
+    }
   },
-});
+
+  loginFormStyle: {
+    margin: '1rem 0rem 2rem 2rem',
+  },
+
+  smallLabel: {
+    '@media (max-width: 900px)': {
+        display: 'block',
+    }
+  }
+})
 
 export default Login;

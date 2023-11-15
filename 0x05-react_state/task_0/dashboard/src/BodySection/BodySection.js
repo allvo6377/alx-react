@@ -1,27 +1,16 @@
 import React from 'react';
-import PropTypes from "prop-types";
 
-class BodySection extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className="bodySection">
-                <h2>{this.props.title}</h2>
-                {this.props.children}
-            </div>
-        );
-    }
+const marginLeftStyle = {
+	marginLeft: '2rem'
 }
 
-BodySection.defaultProps = {
-    title: "",
-};
+const BodySection = ({ title, children }) => {
+	return (
+		<div className='bodySection'>
+			<h2 style={marginLeftStyle}>{title}</h2>
+			{children}
+		</div>
+	)
+}
 
-BodySection.propTypes = {
-    title: PropTypes.string,
-};
-
-export default BodySection;
+export default BodySection
