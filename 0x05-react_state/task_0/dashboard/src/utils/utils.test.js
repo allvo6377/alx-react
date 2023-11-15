@@ -3,7 +3,7 @@ import { getFullYear, getFooterCopy, getLatestNotification } from './utils'
 
 describe('Test Utils', () => {
 	it('checks return of getFullYear', () => {
-		assert.equal(getFullYear(), 2021)
+		assert.equal(getFullYear(), 2023)
 	})
 	it('checks return of getFooterCopy with isIndex === true', () => {
 		assert.equal(getFooterCopy(true), 'Holberton School')
