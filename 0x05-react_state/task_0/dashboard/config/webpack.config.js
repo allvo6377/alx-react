@@ -1,20 +1,18 @@
-// Webpack uses this to work with directories
-const path = require('path');
+const path = require("path");
 
-// This is the main configuration object.
-// Here, you write different options and tell Webpack what to do
 module.exports = {
-  // Path to your entry point. From this file Webpack will begin its work
-  entry: './src/index.js',
+  mode: "development",
+  devtool: "inline-source-map",
+  entry: "./src/index.js",
   output: {
-    path: path.resolve('./dist'),
-    filename: 'bundle.js',
+    filename: "bundle.js",
+    path: path.resolve("./dist"),
   },
-  mode: 'development',
   devServer: {
     hot: true,
-    contentBase: path.resolve('./dist'),
+    contentBase: path.resolve("./dist"),
     compress: true,
+    port: 8564,
   },
   module: {
     rules: [
@@ -34,8 +32,8 @@ module.exports = {
           {
             loader: "image-webpack-loader",
             options: {
-              bypassOnDebug: true,
-              disable: true,
+              bypassOnDebug: true, // webpack@1.x
+              disable: true, // webpack@2.x and newer
             },
           },
         ],

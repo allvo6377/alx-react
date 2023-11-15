@@ -1,24 +1,38 @@
-import React from 'react'
-import { expect } from 'chai'
-import { shallow } from 'enzyme'
-import BodySection from './BodySection'
-import { StyleSheetTestUtils } from 'aphrodite'
+import { shallow, mount } from "enzyme";
+import React from "react";
+import BodySection from "./BodySection";
 
+describe("<BodySection />", () => {
+    it("BodySection renders without crashing", () => {
+        const wrapper = shallow(<BodySection />);
+        expect(wrapper.exists()).toEqual(true);
+    });
 
-describe('Test BodySection component', () => {
-  beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-  })
+    it("BodySection renders without crashing", () => {
+        const wrapper = shallow(
+            <BodySection title="test title">
+                <p>test children node</p>
+            </BodySection>
+        );
 
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  })
+        const h2 = wrapper.find("h2");
+        const p = wrapper.find("p");
 
-  it('render correctly the children and one h2 element', () => {
-    const wrapper = shallow(<BodySection title='test title'><p>test children node</p></BodySection>);
-    expect(wrapper.find('p')).to.have.length(1);
-    expect(wrapper.find('p').text()).to.equal('test children node');
-    expect(wrapper.find('h2')).to.have.length(1);
-    expect(wrapper.find('h2').text()).to.equal('test title');
-  })
-})
+        expect(h2).toHaveLength(1);
+        expect(h2.text()).toEqual("test title");
+
+        expect(p).toHaveLength(1);
+        expect(p.text()).toEqual("test children node");
+    });
+    it("BodySection has correct class for style", () => {
+        const wrapper = shallow(
+            <BodySection title="test title">
+                <p>test children node</p>
+            </BodySection>
+        );
+
+        const div = wrapper.find(".bodySection").first();
+
+        expect(div.exists()).toEqual(true);
+    });
+});
